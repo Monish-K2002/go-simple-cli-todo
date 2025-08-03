@@ -4,11 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"os"
 )
 
 func LoadFile(data *todos) error {
 	fileName := "todo.json"
+	checkFileValidity(fileName)
 	file, err := os.OpenFile(fileName, os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
 		fmt.Println(err)
@@ -17,7 +19,8 @@ func LoadFile(data *todos) error {
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-
+			fmt.Println(err)
+			panic(err)
 		}
 	}(file)
 
@@ -38,4 +41,17 @@ func AppendFile(data *todos) error {
 	}
 	err = os.WriteFile(fileName, fileContent, 0644)
 	return err
+}
+
+func checkFileValidity(fileName string) {
+	_, err := os.Stat(fileName)
+	if err != nil {
+		if os.IsNotExist(err) {
+			log.Printf("Creating the file %s \n", fileName)
+			return
+		}
+	} else {
+		log.Printf("Opening the file %s \n", fileName)
+		return
+	}
 }
