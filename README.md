@@ -8,3 +8,4 @@ A simple command-line interface (CLI) tool, built with Go, for managing your dai
 * **List**: View all your pending tasks.
 * **Update**: Modify an existing task.
 * **Delete**: Remove a task from your list.
+* **Logging**: Log all the action performed while execution.
